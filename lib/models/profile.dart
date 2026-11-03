@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
@@ -70,6 +71,7 @@ abstract class Profile with _$Profile {
     String? currentGroupName,
     @Default('') String url,
     @Default('') String ageSecretKey,
+    @Default('') String decryptPassword,
     DateTime? lastUpdateDate,
     required Duration autoUpdateDuration,
     SubscriptionInfo? subscriptionInfo,
@@ -187,16 +189,29 @@ extension ProfileExtension on Profile {
     final response = await request.getFileResponseForUrl(url);
     final disposition = response.headers.value('content-disposition');
     final userinfo = response.headers.value('subscription-userinfo');
+    var data = response.data ?? Uint8List(0);
+    if (isSubscriptionEncrypted(
+      response.headers.value(subscriptionEncryptionHeader),
+    )) {
+      if (decryptPassword.isEmpty) {
+        throw const SubscriptionEncryptedException();
+      }
+      final decrypted = tryDecryptSubscription(
+        decryptPassword,
+        utf8.decode(data),
+      );
+      if (decrypted == null) {
+        throw const SubscriptionEncryptedException(passwordWrong: true);
+      }
+      data = decrypted;
+    }
     return copyWith(
       label: label.takeFirstValid([
         getFileNameForDisposition(disposition),
         defaultLabel,
       ]),
       subscriptionInfo: SubscriptionInfo.formHString(userinfo),
-    ).saveFile(
-      decompressUnlabeled(response.data ?? Uint8List(0)),
-      validate: validate,
-    );
+    ).saveFile(decompressUnlabeled(data), validate: validate);
   }
 
   Future<Profile> saveFile(

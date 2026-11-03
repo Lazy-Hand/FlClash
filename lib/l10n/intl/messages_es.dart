@@ -651,6 +651,18 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "daysAgo": m20,
     "daysAgoShort": m21,
+    "decryptPassword": MessageLookupByLibrary.simpleMessage(
+      "Contraseña de descifrado",
+    ),
+    "decryptPasswordHint": MessageLookupByLibrary.simpleMessage(
+      "Solo para suscripciones cifradas",
+    ),
+    "decryptPasswordRequiredTip": MessageLookupByLibrary.simpleMessage(
+      "Esta suscripción está cifrada y necesita una contraseña de descifrado",
+    ),
+    "decryptPasswordWrongTip": MessageLookupByLibrary.simpleMessage(
+      "Contraseña incorrecta, inténtalo de nuevo",
+    ),
     "decryptUntrusted": MessageLookupByLibrary.simpleMessage(
       "Descifrar sin confianza local",
     ),
@@ -1125,9 +1137,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "installCertificateSuccess": MessageLookupByLibrary.simpleMessage(
       "Certificado instalado",
     ),
-    "installedAppsPermissionDeniedMessage": MessageLookupByLibrary.simpleMessage(
-      "Se denegó el permiso de lista de apps, por lo que no se pueden mostrar las apps instaladas. Concédelo manualmente en los ajustes del sistema.",
-    ),
+    "installedAppsPermissionDeniedMessage":
+        MessageLookupByLibrary.simpleMessage(
+          "Se denegó el permiso de lista de apps, por lo que no se pueden mostrar las apps instaladas. Concédelo manualmente en los ajustes del sistema.",
+        ),
     "installedAppsPermissionDesc": MessageLookupByLibrary.simpleMessage(
       "Este sistema oculta la lista de apps instaladas hasta que se concede el permiso. Autorízalo para configurar el proxy por app.",
     ),

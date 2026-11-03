@@ -632,6 +632,18 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "daysAgo": m20,
     "daysAgoShort": m21,
+    "decryptPassword": MessageLookupByLibrary.simpleMessage(
+      "Пароль расшифровки",
+    ),
+    "decryptPasswordHint": MessageLookupByLibrary.simpleMessage(
+      "Только для зашифрованных подписок",
+    ),
+    "decryptPasswordRequiredTip": MessageLookupByLibrary.simpleMessage(
+      "Эта подписка зашифрована, для расшифровки нужен пароль",
+    ),
+    "decryptPasswordWrongTip": MessageLookupByLibrary.simpleMessage(
+      "Неверный пароль, попробуйте ещё раз",
+    ),
     "decryptUntrusted": MessageLookupByLibrary.simpleMessage(
       "Расшифровывать без локального доверия",
     ),
@@ -1096,9 +1108,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "installCertificateSuccess": MessageLookupByLibrary.simpleMessage(
       "Сертификат установлен",
     ),
-    "installedAppsPermissionDeniedMessage": MessageLookupByLibrary.simpleMessage(
-      "Разрешение на список приложений отклонено, поэтому установленные приложения недоступны. Предоставьте его вручную в системных настройках.",
-    ),
+    "installedAppsPermissionDeniedMessage":
+        MessageLookupByLibrary.simpleMessage(
+          "Разрешение на список приложений отклонено, поэтому установленные приложения недоступны. Предоставьте его вручную в системных настройках.",
+        ),
     "installedAppsPermissionDesc": MessageLookupByLibrary.simpleMessage(
       "Эта система не выдаёт список установленных приложений без разрешения. Предоставьте его, чтобы настроить прокси для отдельных приложений.",
     ),

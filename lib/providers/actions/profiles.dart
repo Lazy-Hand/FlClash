@@ -193,7 +193,7 @@ class ProfilesAction extends _$ProfilesAction {
     ref.read(currentPageLabelProvider.notifier).toProfiles();
     final profile = await globalState.loadingRun(
       tag: LoadingTag.profiles,
-      () => _withAgeSecretKey(
+      () => _withSecrets(
         Profile.normal(label: platformFile.name),
         (profile) => profile.saveFile(
           bytes,
@@ -353,17 +353,18 @@ class ProfilesAction extends _$ProfilesAction {
     String link, {
     String? label,
     String ageSecretKey = '',
+    String decryptPassword = '',
   }) async {
     _showProfiles();
     final profile = await globalState.loadingRun(
       tag: LoadingTag.profiles,
       () => link.isShareLink
           ? _fromShareLinks(Profile.normal(label: label), [link])
-          : _withAgeSecretKey(
-              Profile.normal(
-                label: label,
-                url: link,
-              ).copyWith(ageSecretKey: ageSecretKey),
+          : _withSecrets(
+              Profile.normal(label: label, url: link).copyWith(
+                ageSecretKey: ageSecretKey,
+                decryptPassword: decryptPassword,
+              ),
               _download,
             ),
       title: currentAppLocalizations.addProfile,
@@ -406,18 +407,31 @@ class ProfilesAction extends _$ProfilesAction {
     );
   }
 
-  Future<Profile> _withAgeSecretKey(
+  /// Prompts for the secret an encrypted source needs, retrying the save on
+  /// the profile that carries it. A dismissed prompt fails the save.
+  Future<Profile> _withSecrets(
     Profile profile,
     Future<Profile> Function(Profile profile) save,
   ) async {
-    try {
-      return await save(profile);
-    } on AgeSecretKeyRequiredException {
-      final key = (await dialogs.showAgeSecretKeyInput())?.trim();
-      if (key == null || key.isEmpty) {
-        rethrow;
+    var current = profile;
+    while (true) {
+      try {
+        return await save(current);
+      } on AgeSecretKeyRequiredException {
+        final key = (await dialogs.showAgeSecretKeyInput())?.trim();
+        if (key == null || key.isEmpty) {
+          rethrow;
+        }
+        current = current.copyWith(ageSecretKey: key);
+      } on SubscriptionEncryptedException catch (error) {
+        final password = (await dialogs.showDecryptPasswordInput(
+          passwordWrong: error.passwordWrong,
+        ))?.trim();
+        if (password == null || password.isEmpty) {
+          rethrow;
+        }
+        current = current.copyWith(decryptPassword: password);
       }
-      return save(profile.copyWith(ageSecretKey: key));
     }
   }
 

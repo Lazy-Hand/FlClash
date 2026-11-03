@@ -9,7 +9,12 @@ import 'batch_section.dart';
 import 'form_page.dart';
 import 'form_row.dart';
 
-typedef NamedUrl = ({String label, String url, String ageSecretKey});
+typedef NamedUrl = ({
+  String label,
+  String url,
+  String ageSecretKey,
+  String decryptPassword,
+});
 
 Future<NamedUrl?> showNamedUrlForm(
   BuildContext context, {
@@ -42,6 +47,7 @@ Future<List<NamedUrl>?> showNamedUrlsForm(
   FormFieldValidator<String>? urlValidator,
   Set<String> existingUrls = const {},
   bool withAgeSecretKey = false,
+  bool withDecryptPassword = false,
 }) {
   return showFormSheet<List<NamedUrl>>(
     context: context,
@@ -54,6 +60,7 @@ Future<List<NamedUrl>?> showNamedUrlsForm(
       batch: true,
       existingUrls: existingUrls,
       withAgeSecretKey: withAgeSecretKey,
+      withDecryptPassword: withDecryptPassword,
     ),
   );
 }
@@ -73,6 +80,7 @@ class NamedUrlForm extends StatefulWidget {
   final bool batch;
   final Set<String> existingUrls;
   final bool withAgeSecretKey;
+  final bool withDecryptPassword;
 
   const NamedUrlForm({
     super.key,
@@ -86,6 +94,7 @@ class NamedUrlForm extends StatefulWidget {
     this.batch = false,
     this.existingUrls = const {},
     this.withAgeSecretKey = false,
+    this.withDecryptPassword = false,
   });
 
   @override
@@ -95,9 +104,11 @@ class NamedUrlForm extends StatefulWidget {
 class _NamedUrlFormState extends State<NamedUrlForm> {
   final _urlFocusNode = FocusNode();
   final _ageSecretKeyFocusNode = FocusNode();
+  final _decryptPasswordFocusNode = FocusNode();
   late final TextEditingController _labelController;
   late final TextEditingController _urlController;
   final _ageSecretKeyController = TextEditingController();
+  final _decryptPasswordController = TextEditingController();
   final _batchController = TextEditingController();
   bool _isBatch = false;
   bool _attempted = false;
@@ -130,9 +141,11 @@ class _NamedUrlFormState extends State<NamedUrlForm> {
   void dispose() {
     _urlFocusNode.dispose();
     _ageSecretKeyFocusNode.dispose();
+    _decryptPasswordFocusNode.dispose();
     _labelController.dispose();
     _urlController.dispose();
     _ageSecretKeyController.dispose();
+    _decryptPasswordController.dispose();
     _batchController.dispose();
     super.dispose();
   }
@@ -209,7 +222,7 @@ class _NamedUrlFormState extends State<NamedUrlForm> {
       }
       Navigator.of(context).pop<List<NamedUrl>>([
         for (final url in parsed.entries)
-          (label: '', url: url, ageSecretKey: ''),
+          (label: '', url: url, ageSecretKey: '', decryptPassword: ''),
       ]);
       return;
     }
@@ -224,6 +237,7 @@ class _NamedUrlFormState extends State<NamedUrlForm> {
         label: _labelController.text.trim(),
         url: _urlController.text.trim(),
         ageSecretKey: _ageSecretKeyController.text.trim(),
+        decryptPassword: _decryptPasswordController.text.trim(),
       ),
     ]);
   }
@@ -270,6 +284,7 @@ class _NamedUrlFormState extends State<NamedUrlForm> {
     AppLocalizations appLocalizations,
     _NamedUrlField? invalid,
   ) {
+    final hasSecrets = widget.withAgeSecretKey || widget.withDecryptPassword;
     return generateSection(
       items: [
         FormRow(
@@ -293,7 +308,7 @@ class _NamedUrlFormState extends State<NamedUrlForm> {
             autofocus: true,
             hintText: appLocalizations.required,
             keyboardType: TextInputType.url,
-            textInputAction: widget.withAgeSecretKey
+            textInputAction: hasSecrets
                 ? TextInputAction.next
                 : TextInputAction.done,
             autocorrect: false,
@@ -302,6 +317,8 @@ class _NamedUrlFormState extends State<NamedUrlForm> {
             onFieldSubmitted: (_) {
               if (widget.withAgeSecretKey) {
                 _ageSecretKeyFocusNode.requestFocus();
+              } else if (widget.withDecryptPassword) {
+                _decryptPasswordFocusNode.requestFocus();
               } else {
                 _handleSubmit();
               }
@@ -315,6 +332,25 @@ class _NamedUrlFormState extends State<NamedUrlForm> {
               controller: _ageSecretKeyController,
               focusNode: _ageSecretKeyFocusNode,
               hintText: appLocalizations.optional,
+              textInputAction: widget.withDecryptPassword
+                  ? TextInputAction.next
+                  : TextInputAction.done,
+              onFieldSubmitted: (_) {
+                if (widget.withDecryptPassword) {
+                  _decryptPasswordFocusNode.requestFocus();
+                } else {
+                  _handleSubmit();
+                }
+              },
+            ),
+          ),
+        if (widget.withDecryptPassword)
+          FormRow(
+            title: appLocalizations.decryptPassword,
+            trailing: FormRowSecretTextField(
+              controller: _decryptPasswordController,
+              focusNode: _decryptPasswordFocusNode,
+              hintText: appLocalizations.decryptPasswordHint,
               textInputAction: TextInputAction.done,
               onFieldSubmitted: (_) => _handleSubmit(),
             ),

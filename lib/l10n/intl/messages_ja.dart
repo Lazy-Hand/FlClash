@@ -517,6 +517,16 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "daysAgo": m20,
     "daysAgoShort": m21,
+    "decryptPassword": MessageLookupByLibrary.simpleMessage("復号パスワード"),
+    "decryptPasswordHint": MessageLookupByLibrary.simpleMessage(
+      "暗号化されたサブスクリプションのみ必要",
+    ),
+    "decryptPasswordRequiredTip": MessageLookupByLibrary.simpleMessage(
+      "このサブスクリプションは暗号化されており、復号パスワードが必要です",
+    ),
+    "decryptPasswordWrongTip": MessageLookupByLibrary.simpleMessage(
+      "パスワードが正しくありません。もう一度お試しください",
+    ),
     "decryptUntrusted": MessageLookupByLibrary.simpleMessage(
       "ローカルで信頼されていなくても復号",
     ),

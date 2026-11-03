@@ -220,6 +220,24 @@ class Dialogs {
     );
   }
 
+  Future<String?> showDecryptPasswordInput({bool passwordWrong = false}) {
+    final appLocalizations = currentAppLocalizations;
+    return showCommonDialog<String>(
+      child: InputDialog(
+        title: passwordWrong
+            ? appLocalizations.decryptPasswordWrongTip
+            : appLocalizations.decryptPassword,
+        value: '',
+        labelText: appLocalizations.decryptPassword,
+        hintText: appLocalizations.decryptPasswordHint,
+        obscureText: true,
+        validator: (value) => value == null || value.trim().isEmpty
+            ? appLocalizations.emptyTip(appLocalizations.decryptPassword)
+            : null,
+      ),
+    );
+  }
+
   void showBanner(
     String text, {
     BannerLevel level = BannerLevel.info,

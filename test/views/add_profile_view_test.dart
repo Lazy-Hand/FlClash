@@ -19,15 +19,18 @@ class _RecordingProfilesAction extends ProfilesAction {
   final batches = <List<String>>[];
   final singles = <String>[];
   final ageSecretKeys = <String>[];
+  final decryptPasswords = <String>[];
 
   @override
   Future<void> addProfileFromLink(
     String link, {
     String? label,
     String ageSecretKey = '',
+    String decryptPassword = '',
   }) async {
     singles.add(link);
     ageSecretKeys.add(ageSecretKey);
+    decryptPasswords.add(decryptPassword);
   }
 
   @override
@@ -165,12 +168,14 @@ void main() {
     await tester.pumpAndSettle();
     await tester.enterText(_field(l10n.link), 'https://example.com/sub');
     await tester.enterText(_field(l10n.ageSecretKey), ' AGE-SECRET-KEY-1A ');
+    await tester.enterText(_field(l10n.decryptPassword), ' pw123 ');
     await tester.pump();
     await tester.tap(find.text(l10n.submit));
     await tester.pumpAndSettle();
 
     expect(action.singles, ['https://example.com/sub']);
     expect(action.ageSecretKeys, ['AGE-SECRET-KEY-1A']);
+    expect(action.decryptPasswords, ['pw123']);
     expect(tester.takeException(), null);
   });
 

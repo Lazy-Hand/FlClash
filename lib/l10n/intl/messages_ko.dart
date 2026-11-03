@@ -507,6 +507,14 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "daysAgo": m20,
     "daysAgoShort": m21,
+    "decryptPassword": MessageLookupByLibrary.simpleMessage("복호화 비밀번호"),
+    "decryptPasswordHint": MessageLookupByLibrary.simpleMessage("암호화된 구독에만 필요"),
+    "decryptPasswordRequiredTip": MessageLookupByLibrary.simpleMessage(
+      "이 구독은 암호화되어 있어 복호화 비밀번호가 필요합니다",
+    ),
+    "decryptPasswordWrongTip": MessageLookupByLibrary.simpleMessage(
+      "비밀번호가 올바르지 않습니다. 다시 시도하세요",
+    ),
     "decryptUntrusted": MessageLookupByLibrary.simpleMessage("로컬 신뢰 없이 복호화"),
     "defaultNameserverDesc": MessageLookupByLibrary.simpleMessage(
       "다른 DNS 서버의 도메인을 확인합니다. IP 주소만 입력할 수 있습니다.",

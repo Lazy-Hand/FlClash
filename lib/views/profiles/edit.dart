@@ -31,6 +31,7 @@ class _EditProfileViewState extends ConsumerState<EditProfileView> {
   late final TextEditingController _labelController;
   late final TextEditingController _urlController;
   late final TextEditingController _ageSecretKeyController;
+  late final TextEditingController _decryptPasswordController;
   late final TextEditingController _autoUpdateDurationController;
   late bool _autoUpdate;
   Uint8List? _editedData;
@@ -46,6 +47,9 @@ class _EditProfileViewState extends ConsumerState<EditProfileView> {
     _urlController = TextEditingController(text: widget.profile.url);
     _ageSecretKeyController = TextEditingController(
       text: widget.profile.ageSecretKey,
+    );
+    _decryptPasswordController = TextEditingController(
+      text: widget.profile.decryptPassword,
     );
     _autoUpdate = widget.profile.autoUpdate;
     _autoUpdateDurationController = TextEditingController(
@@ -130,6 +134,7 @@ class _EditProfileViewState extends ConsumerState<EditProfileView> {
     var profile = current.copyWith(
       url: _urlController.text,
       ageSecretKey: _ageSecretKeyController.text.trim(),
+      decryptPassword: _decryptPasswordController.text.trim(),
       label: _labelController.text,
       autoUpdate: _autoUpdate,
       autoUpdateDuration: interval != null && interval > 0
@@ -140,7 +145,8 @@ class _EditProfileViewState extends ConsumerState<EditProfileView> {
     final appLocalizations = context.appLocalizations;
     final hasUpdate =
         current.url != profile.url ||
-        current.ageSecretKey != profile.ageSecretKey;
+        current.ageSecretKey != profile.ageSecretKey ||
+        current.decryptPassword != profile.decryptPassword;
     if (_fileData != null) {
       if (profile.type == ProfileType.url && _autoUpdate) {
         final res = await dialogs.showMessage(
@@ -290,6 +296,7 @@ class _EditProfileViewState extends ConsumerState<EditProfileView> {
     _labelController.dispose();
     _urlController.dispose();
     _ageSecretKeyController.dispose();
+    _decryptPasswordController.dispose();
     _fileInfoNotifier.dispose();
     _autoUpdateDurationController.dispose();
     super.dispose();
@@ -316,6 +323,8 @@ class _EditProfileViewState extends ConsumerState<EditProfileView> {
               onChanged: _handleChanged,
             ),
           _AgeSecretKeyField(controller: _ageSecretKeyController),
+          if (isUrl)
+            _DecryptPasswordField(controller: _decryptPasswordController),
         ],
       ),
       if (isUrl)
@@ -482,6 +491,25 @@ class _AgeSecretKeyField extends StatelessWidget {
       trailing: FormRowSecretTextField(
         controller: controller,
         hintText: appLocalizations.optional,
+        textInputAction: TextInputAction.next,
+      ),
+    );
+  }
+}
+
+class _DecryptPasswordField extends StatelessWidget {
+  const _DecryptPasswordField({required this.controller});
+
+  final TextEditingController controller;
+
+  @override
+  Widget build(BuildContext context) {
+    final appLocalizations = context.appLocalizations;
+    return FormRow(
+      title: appLocalizations.decryptPassword,
+      trailing: FormRowSecretTextField(
+        controller: controller,
+        hintText: appLocalizations.decryptPasswordHint,
         textInputAction: TextInputAction.next,
       ),
     );

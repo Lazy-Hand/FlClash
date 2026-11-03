@@ -653,6 +653,18 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "daysAgo": m20,
     "daysAgoShort": m21,
+    "decryptPassword": MessageLookupByLibrary.simpleMessage(
+      "Mot de passe de déchiffrement",
+    ),
+    "decryptPasswordHint": MessageLookupByLibrary.simpleMessage(
+      "Uniquement pour les abonnements chiffrés",
+    ),
+    "decryptPasswordRequiredTip": MessageLookupByLibrary.simpleMessage(
+      "Cet abonnement est chiffré et nécessite un mot de passe de déchiffrement",
+    ),
+    "decryptPasswordWrongTip": MessageLookupByLibrary.simpleMessage(
+      "Mot de passe incorrect, veuillez réessayer",
+    ),
     "decryptUntrusted": MessageLookupByLibrary.simpleMessage(
       "Déchiffrer sans confiance locale",
     ),
@@ -1127,9 +1139,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "installCertificateSuccess": MessageLookupByLibrary.simpleMessage(
       "Certificat installé",
     ),
-    "installedAppsPermissionDeniedMessage": MessageLookupByLibrary.simpleMessage(
-      "L’autorisation de la liste des apps a été refusée ; les apps installées ne peuvent donc pas être listées. Veuillez l’accorder manuellement dans les réglages du système.",
-    ),
+    "installedAppsPermissionDeniedMessage":
+        MessageLookupByLibrary.simpleMessage(
+          "L’autorisation de la liste des apps a été refusée ; les apps installées ne peuvent donc pas être listées. Veuillez l’accorder manuellement dans les réglages du système.",
+        ),
     "installedAppsPermissionDesc": MessageLookupByLibrary.simpleMessage(
       "Ce système masque la liste des apps installées tant que l’autorisation n’est pas accordée. Accordez-la pour configurer le proxy par app.",
     ),

@@ -483,6 +483,12 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "daysAgo": m20,
     "daysAgoShort": m21,
+    "decryptPassword": MessageLookupByLibrary.simpleMessage("解密密码"),
+    "decryptPasswordHint": MessageLookupByLibrary.simpleMessage("仅加密订阅需要"),
+    "decryptPasswordRequiredTip": MessageLookupByLibrary.simpleMessage(
+      "该订阅已加密，需要解密密码才能导入",
+    ),
+    "decryptPasswordWrongTip": MessageLookupByLibrary.simpleMessage("密码错误，请重试"),
     "decryptUntrusted": MessageLookupByLibrary.simpleMessage("本机未信任时也解密"),
     "defaultNameserverDesc": MessageLookupByLibrary.simpleMessage(
       "用于解析其他 DNS 服务器的域名，只能填写 IP 地址。",

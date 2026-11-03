@@ -7358,6 +7358,46 @@ class AppLocalizations {
     );
   }
 
+  /// `Decrypt password`
+  String get decryptPassword {
+    return Intl.message(
+      'Decrypt password',
+      name: 'decryptPassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Only needed for encrypted subscriptions`
+  String get decryptPasswordHint {
+    return Intl.message(
+      'Only needed for encrypted subscriptions',
+      name: 'decryptPasswordHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Incorrect password, please try again`
+  String get decryptPasswordWrongTip {
+    return Intl.message(
+      'Incorrect password, please try again',
+      name: 'decryptPasswordWrongTip',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `This subscription is encrypted and needs a decrypt password`
+  String get decryptPasswordRequiredTip {
+    return Intl.message(
+      'This subscription is encrypted and needs a decrypt password',
+      name: 'decryptPasswordRequiredTip',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Holds the start button and can't be removed`
   String get currentOutboundDesc {
     return Intl.message(
@@ -7663,8 +7703,7 @@ class AppLocalizations {
   String customImportDroppedSubRules(num count, Object label) {
     return Intl.plural(
       count,
-      one:
-          '1 SUB-RULE rule was dropped, since custom profiles do not support sub-rules',
+      one: '1 SUB-RULE rule was dropped, since custom profiles do not support sub-rules',
       other:
           '$label SUB-RULE rules were dropped, since custom profiles do not support sub-rules',
       name: 'customImportDroppedSubRules',

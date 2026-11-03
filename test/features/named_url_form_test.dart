@@ -81,9 +81,50 @@ void main() {
     await tester.testTextInput.receiveAction(TextInputAction.done);
     await tester.pumpAndSettle();
     expect(result, [
-      (label: 'Home', url: 'https://example.com/sub', ageSecretKey: ''),
+      (
+        label: 'Home',
+        url: 'https://example.com/sub',
+        ageSecretKey: '',
+        decryptPassword: '',
+      ),
     ]);
   });
+
+  testWidgets(
+    'the decrypt password row submits its value when enabled',
+    (tester) async {
+      List<NamedUrl>? result;
+      await _open(
+        tester,
+        const NamedUrlForm(
+          title: 'Import',
+          withAgeSecretKey: true,
+          withDecryptPassword: true,
+        ),
+        (value) => result = value,
+      );
+
+      expect(find.widgetWithText(FormRow, 'Age secret key'), findsOneWidget);
+      expect(find.widgetWithText(FormRow, 'Decrypt password'), findsOneWidget);
+
+      await tester.enterText(_field('URL'), 'https://example.com/sub');
+      await tester.testTextInput.receiveAction(TextInputAction.next);
+      await tester.pump();
+      expect(_focused(tester, _field('Age secret key')), isTrue);
+
+      await tester.enterText(_field('Decrypt password'), 'pw');
+      await tester.testTextInput.receiveAction(TextInputAction.done);
+      await tester.pumpAndSettle();
+      expect(result, [
+        (
+          label: '',
+          url: 'https://example.com/sub',
+          ageSecretKey: '',
+          decryptPassword: 'pw',
+        ),
+      ]);
+    },
+  );
 
   testWidgets('a batch previews, refuses invalid lines and returns every url', (
     tester,
@@ -127,8 +168,18 @@ void main() {
     await tester.tap(submit);
     await tester.pumpAndSettle();
     expect(result, [
-      (label: '', url: 'https://example.com/a', ageSecretKey: ''),
-      (label: '', url: 'https://example.com/b', ageSecretKey: ''),
+      (
+        label: '',
+        url: 'https://example.com/a',
+        ageSecretKey: '',
+        decryptPassword: '',
+      ),
+      (
+        label: '',
+        url: 'https://example.com/b',
+        ageSecretKey: '',
+        decryptPassword: '',
+      ),
     ]);
   });
 }

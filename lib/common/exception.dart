@@ -29,3 +29,11 @@ final class ReleaseNotVerifiedException implements Exception {
   @override
   String toString() => 'ReleaseNotVerifiedException: $name';
 }
+
+/// The subscription body arrived AES-encrypted; [passwordWrong] marks a
+/// decryption attempt that ran and failed, so a prompt asks again.
+final class SubscriptionEncryptedException implements Exception {
+  final bool passwordWrong;
+
+  const SubscriptionEncryptedException({this.passwordWrong = false});
+}

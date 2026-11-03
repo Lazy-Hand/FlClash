@@ -31,6 +31,7 @@ _Profile _$ProfileFromJson(Map<String, dynamic> json) => _Profile(
   currentGroupName: json['currentGroupName'] as String?,
   url: json['url'] as String? ?? '',
   ageSecretKey: json['ageSecretKey'] as String? ?? '',
+  decryptPassword: json['decryptPassword'] as String? ?? '',
   lastUpdateDate: json['lastUpdateDate'] == null
       ? null
       : DateTime.parse(json['lastUpdateDate'] as String),
@@ -71,6 +72,7 @@ Map<String, dynamic> _$ProfileToJson(_Profile instance) => <String, dynamic>{
   'currentGroupName': instance.currentGroupName,
   'url': instance.url,
   'ageSecretKey': instance.ageSecretKey,
+  'decryptPassword': instance.decryptPassword,
   'lastUpdateDate': instance.lastUpdateDate?.toIso8601String(),
   'autoUpdateDuration': instance.autoUpdateDuration.inMicroseconds,
   'subscriptionInfo': instance.subscriptionInfo,
