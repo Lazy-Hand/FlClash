@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.9.301 (2026-11-06)
+
+**Features**
+
+- **profiles** Support AES-encrypted subscriptions with a decrypt password (b1a405d)
+
 ## v0.9.3 (2026-11-04)
 
 **Features**
